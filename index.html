@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="container-img">
+        <ul class="ui-img">
+          <li><img src="./img/img1.jpg" alt="" /></li>
+          <li><img src="./img/img2.jpg" alt="" /></li>
+          <li><img src="./img/img3.jpg" alt="" /></li>
+          <li><img src="./img/img4.jpg" alt="" /></li>
+          <li><img src="./img/img1.jpg" alt="" /></li>
+        </ul>
+      </div>
+      <div class="left">&lt;</div>
+      <div class="right">&gt;</div>
+      <div class="dot-container">
+        <span class="dot red" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+        <span class="dot" data-index="3"></span>
+      </div>
+    </div>
+
+    <script>
+      const ui = document.querySelector(".ui-img");
+      const left = document.querySelector(".left");
+      const right = document.querySelector(".right");
+      const dots = document.querySelector(".dot-container");
+      const dotList = dots.children;
+      const INTERVAL = 5000;
+      const NUMBER = 4;
+      let next = 0;
+      let timeId = null;
+      function redDot(index) {
+        for (let i = 0; i < dotList.length; i++) {
+          if (i == index) {
+            dotList[i].classList.add("red");
+          } else {
+            dotList[i].classList.remove("red");
+          }
+        }
+      }
+      dots.addEventListener("click", function (e) {
+        let index = e.target.dataset.index;
+        redDot(index);
+        ui.style.left = `${-590 * index}px`;
+      });
+      left.addEventListener("click", function (e) {
+        next > 0 ? next-- : next;
+        redDot(next);
+        ui.style.left = `${-590 * next}px`;
+      });
+      right.addEventListener("click", function (e) {
+        next < 3 ? next++ : next;
+        redDot(next);
+        ui.style.left = `${-590 * next}px`;
+      });
+      const step = function () {
+        next++;
+        redDot(next);
+        ui.style.left = `${-590 * next}px`;
+        ui.style.transition = "all 1s";
+        if (next == NUMBER) {
+          next = 0;
+          redDot(next);
+          setTimeout(function () {
+            ui.style.left = 0;
+            ui.style.transition = "0s";
+          }, 1000);
+        }
+      };
+      setInterval(step, INTERVAL);
+    </script>
+  </body>
+</html>
